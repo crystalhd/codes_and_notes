@@ -1,0 +1,53 @@
+/*
+@Copyright:LintCode
+@Author:   holiday_0802
+@Problem:  http://www.lintcode.com/en/problem/backpack-vi/
+@Language: C++
+@Datetime: 16-08-09 09:22
+*/
+
+/* **********Description***************************************
+Given an integer array nums with all positive numbers and no duplicates, 
+find the number of possible combinations that add up to a positive integer target.
+
+ Notice
+
+The different sequences are counted as different combinations.
+
+Example
+Given nums = [1, 2, 4], target = 4
+
+The possible combination ways are:
+[1, 1, 1, 1]
+[1, 1, 2]
+[1, 2, 1]
+[2, 1, 1]
+[2, 2]
+[4]
+return 6
+
+****************************************************************/
+
+// difference from backpack I and II.
+class Solution {
+public:
+    /**
+     * @param nums an integer array and all positive numbers, no duplicates
+     * @param target an integer
+     * @return an integer
+     */
+    int backPackVI(vector<int>& nums, int target) {
+        // Write your code here
+        int size = nums.size();
+        if (size == 0 || target == 0) return 0;
+        vector<int> dp(target+1, 0);
+        dp[0] = 1;
+        for (int i = 1; i <= target; ++i) {
+            for (int j = 0; j < size; ++j) {
+                if (i - nums[j] < 0) continue;
+                dp[i] += dp[i-nums[j]];
+            }
+        }
+        return dp[target];
+    }
+};
